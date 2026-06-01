@@ -6,4 +6,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('mediaapp.urls')),
 ]
-urlpatterns = staticfiles_urlpatterns()
+
+urlpatterns += staticfiles_urlpatterns()

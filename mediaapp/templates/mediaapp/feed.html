@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <a href="{% url 'create_post' %}" class="btn btn-primary mb-3">New Post</a>
+        {% for post in posts %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title">
+                            <a href="{% url 'profile' post.user.username %}">{{ post.user.username }}</a>
+                        </h5>
+                        <small class="text-muted">{{ post.created_at|timesince }} ago</small>
+                    </div>
+                    <p class="card-text">{{ post.content }}</p>
+                    {% if post.image %}
+                        <img src="{{ post.image.url }}" class="img-fluid mb-2" style="max-height: 300px;">
+                    {% endif %}
+                    {% if post.video %}
+                        <video controls class="img-fluid mb-2" style="max-height: 300px;">
+                            <source src="{{ post.video.url }}" type="video/mp4">
+                        </video>
+                    {% endif %}
+                    <div class="d-flex justify-content-between">
+                        <span>
+                            <a href="{% url 'like_post' post.id %}" class="btn btn-sm btn-outline-danger">
+                                ❤ {{ post.total_likes }}
+                            </a>
+                            <a href="{% url 'post_detail' post.id %}" class="btn btn-sm btn-outline-secondary">
+                                💬 {{ post.total_comments }}
+                            </a>
+                        </span>
+                        {% if user == post.user %}
+                        <span>
+                            <a href="{% url 'edit_post' post.id %}" class="btn btn-sm btn-outline-warning">Edit</a>
+                            <a href="{% url 'delete_post' post.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="alert alert-info">Your feed is empty. Follow some users or create a post!</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

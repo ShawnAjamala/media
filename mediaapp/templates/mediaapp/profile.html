@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <img src="{{ profile.profile_picture.url }}" class="rounded-circle img-fluid mb-3" style="width: 150px; height: 150px; object-fit: cover;" alt="Profile Picture">
+                <h3>{{ profile_user.username }}</h3>
+                <p>{{ profile.bio }}</p>
+                {% if profile.website %}
+                    <p><a href="{{ profile.website }}" target="_blank">{{ profile.website }}</a></p>
+                {% endif %}
+                <p><strong>{{ followers_count }}</strong> followers · <strong>{{ following_count }}</strong> following</p>
+                {% if user.is_authenticated and user != profile_user %}
+                    {% if is_following %}
+                        <a href="{% url 'unfollow' profile_user.username %}" class="btn btn-outline-primary btn-sm">Unfollow</a>
+                    {% else %}
+                        <a href="{% url 'follow' profile_user.username %}" class="btn btn-primary btn-sm">Follow</a>
+                    {% endif %}
+                {% endif %}
+                {% if user == profile_user %}
+                    <a href="{% url 'edit_profile' %}" class="btn btn-secondary btn-sm mt-2">Edit Profile</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <h4>Posts</h4>
+        {% for post in posts %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <p>{{ post.content }}</p>
+                    {% if post.image %}
+                        <img src="{{ post.image.url }}" class="img-fluid mb-2" style="max-height: 300px;">
+                    {% endif %}
+                    {% if post.video %}
+                        <video controls class="img-fluid mb-2" style="max-height: 300px;">
+                            <source src="{{ post.video.url }}" type="video/mp4">
+                        </video>
+                    {% endif %}
+                    <p class="text-muted small">{{ post.created_at|date:"F d, Y" }}</p>
+                </div>
+            </div>
+        {% empty %}
+            <p>No posts yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

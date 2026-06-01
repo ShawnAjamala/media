@@ -7,7 +7,7 @@ import cloudinary.uploader
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'dummy-key-for-now'   # ← replace me before going live
+SECRET_KEY = 'q#3jozmt^be&cbkx6!lob6!cjc(g!c9bdmyb72%rvcht%m8vo+'
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 
